@@ -6081,7 +6081,11 @@ wl_cfg80211_set_channel(struct wiphy *wiphy, struct net_device *dev,
 #endif /* CUSTOM_SET_CPUCORE */
 
 	dev = ndev_to_wlc_ndev(dev, cfg);
-	_chan = ieee80211_frequency_to_channel(chan->center_freq);
+	if(chan->band == IEEE80211_BAND_5GHZ)
+		// HACK: Set channel 44 for 5GHz hotspot
+		_chan = 44;
+	else
+		_chan =  ieee80211_frequency_to_channel(chan->center_freq);
 	WL_ERR(("netdev_ifidx(%d), chan_type(%d) target channel(%d) \n",
 		dev->ifindex, channel_type, _chan));
 
